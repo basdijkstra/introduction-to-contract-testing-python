@@ -1,0 +1,86 @@
+{
+  "consumer": {
+    "name": "customer_consumer_python"
+  },
+  "provider": {
+    "name": "address_provider_python"
+  },
+  "interactions": [
+    {
+      "description": "a request for address data",
+      "providerState": "Customer GET: the address ID matches an existing address",
+      "request": {
+        "method": "get",
+        "path": "/address/8aed8fad-d554-4af8-abf5-a65830b49a5f"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "id": "fc763eba-0905-41c5-a27f-3934ab26786c",
+          "street": "Main Street",
+          "number": 123,
+          "city": "Nothingville",
+          "zip_code": 90210,
+          "state": "Tennessee"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          },
+          "$.body.id": {
+            "match": "regex",
+            "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+          },
+          "$.body.street": {
+            "match": "type"
+          },
+          "$.body.number": {
+            "match": "type"
+          },
+          "$.body.city": {
+            "match": "type"
+          },
+          "$.body.zip_code": {
+            "match": "type"
+          },
+          "$.body.state": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "a request for address data",
+      "providerState": "Customer GET: the address ID does not match an existing address",
+      "request": {
+        "method": "get",
+        "path": "/address/00000000-0000-0000-0000-000000000000"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "a request for address data",
+      "providerState": "Customer GET: the address ID is invalid",
+      "request": {
+        "method": "get",
+        "path": "/address/this_is_not_a_valid_address_id"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
