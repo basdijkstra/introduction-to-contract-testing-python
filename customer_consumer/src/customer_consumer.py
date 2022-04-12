@@ -22,6 +22,11 @@ class AddressConsumer(object):
             response_json['state']
         )
 
+    def delete_address(self, address_id):
+        """DELETE an address at the provider by its id"""
+        uri = f'{self.base_uri}/address/{address_id}'
+        requests.delete(uri)
+
 
 class Address(object):
 

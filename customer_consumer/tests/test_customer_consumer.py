@@ -94,3 +94,25 @@ def test_get_invalid_address_id(pact, consumer):
     with pact:
         address = consumer.get_address(INVALID_ADDRESS)
         assert address is None
+
+
+def test_delete_valid_address_id(pact, consumer):
+    (pact
+     .given('Customer DELETE: the address ID is valid')
+     .upon_receiving('a request to delete address data')
+     .with_request('delete', f'/address/{EXISTING_ADDRESS}')
+     .will_respond_with(204))
+
+    with pact:
+        consumer.delete_address(EXISTING_ADDRESS)
+
+
+def test_delete_invalid_address_id(pact, consumer):
+    (pact
+     .given('Customer DELETE: the address ID is invalid')
+     .upon_receiving('a request to delete address data')
+     .with_request('delete', f'/address/{INVALID_ADDRESS}')
+     .will_respond_with(400))
+
+    with pact:
+        consumer.delete_address(INVALID_ADDRESS)
