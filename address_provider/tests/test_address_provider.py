@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 PACT_FILE_CUSTOMER = "customer_consumer_python-address_provider_python.json"
 PACT_FILE_ORDER = "order_consumer_python-address_provider_python.json"
 
-PACT_MOCK_HOST = 'localhost'
+PACT_MOCK_HOST = '127.0.0.1'
 PACT_MOCK_PORT = 9876
 PACT_URL = f'http://{PACT_MOCK_HOST}:{PACT_MOCK_PORT}'
 PACT_DIR = os.path.dirname(os.path.realpath(__file__))

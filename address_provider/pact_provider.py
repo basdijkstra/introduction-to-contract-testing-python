@@ -1,5 +1,3 @@
-import uuid
-
 from flask import jsonify, request
 from src import app, fakedb
 

@@ -15,7 +15,7 @@ PACT_BROKER_URL = "https://ota.pactflow.io"
 PACT_FILE = "order_consumer_python-address_provider_python.json"
 PACT_BROKER_TOKEN = "HbtH0tZq7CU4d18JlKR2kA"
 
-PACT_MOCK_HOST = 'localhost'
+PACT_MOCK_HOST = '127.0.0.1'
 PACT_MOCK_PORT = 1234
 PACT_DIR = os.path.dirname(os.path.realpath(__file__))
 
