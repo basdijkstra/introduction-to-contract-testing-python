@@ -35,7 +35,7 @@ def consumer():
 def pact():
     pact = Consumer('order_consumer_python', version='1.0.0').has_pact_with(
         Provider('address_provider_python'), host_name=PACT_MOCK_HOST, port=PACT_MOCK_PORT,
-        pact_dir=PACT_DIR, publish_to_broker=False, broker_base_url=PACT_BROKER_URL,
+        pact_dir=PACT_DIR, publish_to_broker=True, broker_base_url=PACT_BROKER_URL,
         broker_token=PACT_BROKER_TOKEN)
 
     print('start service')

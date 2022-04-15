@@ -76,6 +76,32 @@
         "headers": {
         }
       }
+    },
+    {
+      "description": "a request to delete address data",
+      "providerState": "Order DELETE: the address ID is valid",
+      "request": {
+        "method": "delete",
+        "path": "/address/8aed8fad-d554-4af8-abf5-a65830b49a5f"
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "a request to delete address data",
+      "providerState": "Order DELETE: the address ID is invalid",
+      "request": {
+        "method": "delete",
+        "path": "/address/this_is_not_a_valid_address_id"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+        }
+      }
     }
   ],
   "metadata": {
