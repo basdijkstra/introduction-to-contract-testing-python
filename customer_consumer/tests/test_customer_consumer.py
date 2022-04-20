@@ -11,10 +11,6 @@ log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 print(Format().__dict__)
 
-PACT_BROKER_URL = "https://ota.pactflow.io"
-PACT_FILE = "customer_consumer_python-address_provider_python.json"
-PACT_BROKER_TOKEN = "HbtH0tZq7CU4d18JlKR2kA"
-
 PACT_MOCK_HOST = '127.0.0.1'
 PACT_MOCK_PORT = 1234
 PACT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -35,8 +31,7 @@ def consumer():
 def pact():
     pact = Consumer('customer_consumer_python', version='1.0.0').has_pact_with(
         Provider('address_provider_python'), host_name=PACT_MOCK_HOST, port=PACT_MOCK_PORT,
-        pact_dir=PACT_DIR, publish_to_broker=False, broker_base_url=PACT_BROKER_URL,
-        broker_token=PACT_BROKER_TOKEN)
+        pact_dir=PACT_DIR, publish_to_broker=False)
 
     print('start service')
     pact.start_service()
