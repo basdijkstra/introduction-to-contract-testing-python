@@ -8,7 +8,7 @@
   "interactions": [
     {
       "description": "a request for address data",
-      "providerState": "Customer GET: the address ID matches an existing address",
+      "providerState": "Address exists",
       "request": {
         "method": "get",
         "path": "/address/8aed8fad-d554-4af8-abf5-a65830b49a5f"

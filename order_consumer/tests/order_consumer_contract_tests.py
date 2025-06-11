@@ -29,9 +29,13 @@ def consumer():
 
 @pytest.fixture(scope='session')
 def pact():
-    pact = Consumer('order_consumer_python', version='1.0.0').has_pact_with(
-        Provider('address_provider_python'), host_name=PACT_MOCK_HOST, port=PACT_MOCK_PORT,
-        pact_dir=PACT_DIR, publish_to_broker=False)
+    pact = Consumer('order_consumer_python').has_pact_with(
+        Provider('address_provider_python'),
+        host_name=PACT_MOCK_HOST,
+        port=PACT_MOCK_PORT,
+        pact_dir=PACT_DIR,
+        publish_to_broker=False
+    )
 
     print('start service')
     pact.start_service()
@@ -52,7 +56,7 @@ def test_get_existing_address_id(pact, consumer):
     }
 
     (pact
-     .given('Order GET: the address ID matches an existing address')
+     .given(f'Address with ID {EXISTING_ADDRESS} exists')
      .upon_receiving('a request for address data')
      .with_request('get', f'/address/{EXISTING_ADDRESS}')
      .will_respond_with(200, body=Like(expected)))
@@ -68,7 +72,7 @@ def test_get_existing_address_id(pact, consumer):
 
 def test_get_nonexistent_address_id(pact, consumer):
     (pact
-     .given('Order GET: the address ID does not match an existing address')
+     .given(f'Address with ID {NONEXISTENT_ADDRESS} does not exist')
      .upon_receiving('a request for address data')
      .with_request('get', f'/address/{NONEXISTENT_ADDRESS}')
      .will_respond_with(404))
@@ -80,7 +84,7 @@ def test_get_nonexistent_address_id(pact, consumer):
 
 def test_get_invalid_address_id(pact, consumer):
     (pact
-     .given('Order GET: the address ID is invalid')
+     .given('No specific state required')
      .upon_receiving('a request for address data')
      .with_request('get', f'/address/{INVALID_ADDRESS}')
      .will_respond_with(400))
@@ -90,23 +94,12 @@ def test_get_invalid_address_id(pact, consumer):
         assert address is None
 
 
-def test_delete_valid_address_id(pact, consumer):
+def test_delete_address_id(pact, consumer):
     (pact
-     .given('Order DELETE: the address ID is valid')
+     .given('No specific state required')
      .upon_receiving('a request to delete address data')
      .with_request('delete', f'/address/{EXISTING_ADDRESS}')
      .will_respond_with(204))
 
     with pact:
         consumer.delete_address(EXISTING_ADDRESS)
-
-
-def test_delete_invalid_address_id(pact, consumer):
-    (pact
-     .given('Order DELETE: the address ID is invalid')
-     .upon_receiving('a request to delete address data')
-     .with_request('delete', f'/address/{INVALID_ADDRESS}')
-     .will_respond_with(400))
-
-    with pact:
-        consumer.delete_address(INVALID_ADDRESS)

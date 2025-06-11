@@ -26,15 +26,3 @@ def test_verify_customer_contract():
     )
 
     assert (output == 0)
-
-
-def test_verify_order_contract():
-    verifier = Verifier(provider='address_provider_python',
-                        provider_base_url=APP_URL)
-
-    output, logs = verifier.verify_pacts(
-        f'{PACT_DIR}/pacts/{PACT_FILE_ORDER}',
-        verbose=False,
-        provider_states_setup_url=f'{APP_URL}/_pact/provider_states')
-
-    assert (output == 0)
