@@ -18,7 +18,7 @@ class AddressConsumer(object):
             response_json['street'],
             response_json['number'],
             response_json['city'],
-            response_json['zip_code'],
+            response_json['zipcode'],
             response_json['state']
         )
 
@@ -30,10 +30,10 @@ class AddressConsumer(object):
 
 class Address(object):
 
-    def __init__(self, address_id, street, number, city, zip_code, state):
+    def __init__(self, address_id, street, number, city, zipcode, state):
         self.address_id = address_id
         self.street = street
         self.number = number
         self.city = city
-        self.zip_code = zip_code
+        self.zipcode = zipcode
         self.state = state

@@ -45,7 +45,7 @@ def test_get_existing_address_id(pact, consumer):
         'street': Like('Main Street'),
         'number': Like(123),
         'city': Like('Nothingville'),
-        'zip_code': Like(90210),
+        'zipcode': Like(90210),
         'state': Like('Tennessee')
     }
 
@@ -60,7 +60,7 @@ def test_get_existing_address_id(pact, consumer):
         assert address.street == 'Main Street'
         assert address.number == 123
         assert address.city == 'Nothingville'
-        assert address.zip_code == 90210
+        assert address.zipcode == 90210
         assert address.state == 'Tennessee'
 
 

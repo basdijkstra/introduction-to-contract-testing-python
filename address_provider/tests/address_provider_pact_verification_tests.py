@@ -25,7 +25,7 @@ PROVIDER_HOST = '127.0.0.1'
 PROVIDER_PORT = 9876
 PROVIDER_URL = URL(f'http://{PROVIDER_HOST}:{PROVIDER_PORT}')
 
-@app.route
+@app.route("/_pact/provider_states", methods=["POST"])
 def pact_provider_states() -> dict[str, str | None]:
 
     if request.json is None:
