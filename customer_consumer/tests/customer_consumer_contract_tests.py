@@ -3,11 +3,11 @@ import os
 import pytest
 from pact import Consumer, Like, Provider, Format
 
-from customer_consumer.src import AddressConsumer
+from customer_consumer.src import AddressClient
 
 PACT_MOCK_HOST = '127.0.0.1'
 PACT_MOCK_PORT = 9876
-PACT_DIR = os.path.dirname(os.path.realpath(__file__))
+PACT_DIR = f'{os.path.dirname(os.path.realpath(__file__))}/pacts'
 
 EXISTING_ADDRESS = '8aed8fad-d554-4af8-abf5-a65830b49a5f'
 NONEXISTENT_ADDRESS = '00000000-0000-0000-0000-000000000000'
@@ -15,8 +15,8 @@ INVALID_ADDRESS = 'this_is_not_a_valid_address_id'
 
 
 @pytest.fixture
-def consumer():
-    return AddressConsumer(
+def address_client():
+    return AddressClient(
         f'http://{PACT_MOCK_HOST}:{PACT_MOCK_PORT}'
     )
 
@@ -39,7 +39,7 @@ def pact():
     pact.stop_service()
 
 
-def test_get_existing_address_id(pact, consumer):
+def test_get_existing_address_id(pact, address_client):
     expected = {
         'id': Format().uuid,
         'street': Like('Main Street'),
@@ -51,12 +51,12 @@ def test_get_existing_address_id(pact, consumer):
 
     (pact
      .given(f'Address with ID {EXISTING_ADDRESS} exists')
-     .upon_receiving('a request for address data')
+     .upon_receiving('GET address data - address exists')
      .with_request('get', f'/address/{EXISTING_ADDRESS}')
      .will_respond_with(200, body=Like(expected)))
 
     with pact:
-        address = consumer.get_address(EXISTING_ADDRESS)
+        address = address_client.get_address(EXISTING_ADDRESS)
         assert address.street == 'Main Street'
         assert address.number == 123
         assert address.city == 'Nothingville'
@@ -64,36 +64,36 @@ def test_get_existing_address_id(pact, consumer):
         assert address.state == 'Tennessee'
 
 
-def test_get_nonexistent_address_id(pact, consumer):
+def test_get_nonexistent_address_id(pact, address_client):
     (pact
      .given(f'Address with ID {NONEXISTENT_ADDRESS} does not exist')
-     .upon_receiving('a request for address data')
+     .upon_receiving('GET address data - address does not exist')
      .with_request('get', f'/address/{NONEXISTENT_ADDRESS}')
      .will_respond_with(404))
 
     with pact:
-        address = consumer.get_address(NONEXISTENT_ADDRESS)
+        address = address_client.get_address(NONEXISTENT_ADDRESS)
         assert address is None
 
 
-def test_get_invalid_address_id(pact, consumer):
+def test_get_invalid_address_id(pact, address_client):
     (pact
      .given('No specific state required')
-     .upon_receiving('a request for address data')
+     .upon_receiving('GET address data - address ID is invalid')
      .with_request('get', f'/address/{INVALID_ADDRESS}')
      .will_respond_with(400))
 
     with pact:
-        address = consumer.get_address(INVALID_ADDRESS)
+        address = address_client.get_address(INVALID_ADDRESS)
         assert address is None
 
 
-def test_delete_address_id(pact, consumer):
+def test_delete_address_id(pact, address_client):
     (pact
      .given('No specific state required')
-     .upon_receiving('a request to delete address data')
+     .upon_receiving('DELETE address data - address ID is valid')
      .with_request('delete', f'/address/{EXISTING_ADDRESS}')
      .will_respond_with(204))
 
     with pact:
-        consumer.delete_address(EXISTING_ADDRESS)
+        address_client.delete_address(EXISTING_ADDRESS)

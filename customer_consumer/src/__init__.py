@@ -1,1 +1,1 @@
-from .customer_consumer import AddressConsumer, Address
+from .customer_consumer import AddressClient, Address

@@ -1,7 +1,7 @@
 import requests
 
 
-class AddressConsumer(object):
+class AddressClient(object):
 
     def __init__(self, base_uri):
         self.base_uri = base_uri
