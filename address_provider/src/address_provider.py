@@ -17,6 +17,7 @@ class Address:
     city: str
     zipcode: int
     state: str
+    residential: bool
 
     def __post_init__(self):
         """Check that the ID provided is a valid UUID"""
@@ -35,7 +36,8 @@ class Address:
             'number': self.number,
             'city': self.city,
             'zipcode': self.zipcode,
-            'state': self.state
+            'state': self.state,
+            'residential': self.residential
         }
 
 FAKE_DB: dict[str, Address] = {}
@@ -68,7 +70,8 @@ def create_address() -> Response | tuple[Response, int]:
         number=address['number'],
         city=address['city'],
         zipcode=address['zipcode'],
-        state=address['state']
+        state=address['state'],
+        residential=address['residential']
     )
 
     return jsonify(FAKE_DB[address['id']].dict()), 201

@@ -1,6 +1,5 @@
 import logging
 import os
-import atexit
 
 import pytest
 from pact import Consumer, Like, Provider, Format
@@ -46,13 +45,19 @@ def pact():
 
 
 def test_get_existing_address_id(pact, consumer):
+    """
+    Add two fields to the expected response:
+    - one field 'zipcode', which should be an integer
+    - another field 'residential', which should be a boolean
+    Also add an assertion that checks that the mock response
+    returned by the Pact mock server can be read correctly
+    """
+
     expected = {
         'id': Format().uuid,
         'street': Like('Main Street'),
         'number': Like(123),
-        'city': Like('Nothingville'),
-        'zip_code': Like(90210),
-        'state': Like('Tennessee')
+        'city': Like('Nothingville')
     }
 
     (pact
@@ -66,8 +71,6 @@ def test_get_existing_address_id(pact, consumer):
         assert address.street == 'Main Street'
         assert address.number == 123
         assert address.city == 'Nothingville'
-        assert address.zip_code == 90210
-        assert address.state == 'Tennessee'
 
 
 def test_get_nonexistent_address_id(pact, consumer):

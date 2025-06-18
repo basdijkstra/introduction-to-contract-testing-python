@@ -18,8 +18,8 @@ class AddressConsumer(object):
             response_json['street'],
             response_json['number'],
             response_json['city'],
-            response_json['zip_code'],
-            response_json['state']
+            response_json['zipcode'],
+            response_json['residential']
         )
 
     def delete_address(self, address_id):
@@ -30,10 +30,10 @@ class AddressConsumer(object):
 
 class Address(object):
 
-    def __init__(self, address_id, street, number, city, zip_code, state):
+    def __init__(self, address_id, street, number, city, zipcode, residential):
         self.address_id = address_id
         self.street = street
         self.number = number
         self.city = city
-        self.zip_code = zip_code
-        self.state = state
+        self.zipcode = zipcode
+        self.residential = residential
