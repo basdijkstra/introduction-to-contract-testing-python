@@ -1,0 +1,58 @@
+openapi: 3.0.1
+info:
+  title: Ideal Payment API
+  description: Ideal Payment API demo
+  version: 1.0.0
+paths:
+  /order/{id}/payment:
+    get:
+      summary: Get payment for order
+      description: Returns a single payment
+      operationId: getPaymentByOrderId
+      parameters:
+        - name: id
+          in: path
+          description: ID of order to get payment for
+          schema:
+            type: string
+          required: true
+          example: 228aa55c-393c-411b-9410-4a995480e78e
+      responses:
+        "200":
+          description: successful operation
+          content:
+            "application/json; charset=utf-8":
+              schema:
+                $ref: '#/components/schemas/Payment'
+              examples:
+                application/json:
+                  value:
+                    id: "8383a7c3-f831-4f4d-a0a9-015165148af5"
+                    order_id: "228aa55c-393c-411b-9410-4a995480e78e"
+                    amount: 42
+                    status: "payment_complete"
+        "400":
+          description: Invalid order ID supplied
+          content: {}
+        "404":
+          description: Order ID not found
+          content: {}
+components:
+  schemas:
+    Payment:
+      type: object
+      required:
+        - id
+        - order_id
+        - amount
+        - status
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        order_id:
+          type: string
+        amount:
+          type: number
+        status:
+          type: string
